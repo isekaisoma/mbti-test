@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>新MBTI診断</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: F3F4F6_1;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            background: FFFFFF_1;
+            padding: 40px 25px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+        }
+        h1 { font-size: 1.5rem; text-align: center; color: #111; margin-bottom: 20px; }
+
+        .progress-container {
+            width: 100%;
+            background-color: E5E7EB_1;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: 33A474_1;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        #question-area, #loading-area, #result-area {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            flex-grow: 1;
+            animation: fadeIn 0.6s ease;
+        }
+        .question-number { font-size: 0.9rem; color: 6B7280_1; margin-bottom: 10px; font-weight: bold; }
+        .question-text { font-size: 1.3rem; font-weight: bold; margin-bottom: 40px; text-align: center; line-height: 1.4; }
+        .btn {
+            width: 100%; padding: 18px 20px; margin-bottom: 15px; background-color: F9FAFB_1;
+            border: 2px solid E5E7EB_1; border-radius: 12px; font-size: 1rem; color: 374151_1;
+            cursor: pointer; transition: all 0.2s; text-align: center; font-weight: 500;
+        }
+        .btn:active { transform: scale(0.98); border-color: 33A474_1; background-color: ECFDF5_1; }
+
+        .spinner {
+            border: 5px solid F3F3F3_1; border-top: 5px solid 33A474_1; border-radius: 50%;
+            width: 60px; height: 60px; animation: spin 1s linear infinite; margin-top: 50px; margin-bottom: 25px;
+        }
+
+        .result-img { width: 100%; max-width: 350px; border-radius: 15px; margin: 25px 0; background-color: #eee; }
+        .result-message {
+            font-size: 1.1rem; line-height: 1.8; text-align: left; padding: 20px;
+            background: F0FDF4_1; border-radius: 15px; color: 064E3B_1; border: 1px solid D1FAE5_1;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>新MBTI診断</h1>
+    <div id="progress-wrapper">
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+    </div>
+
+    <div id="question-area" style="display: flex;">
+        <div id="q-num" class="question-number">Question 1</div>
+        <div id="question-text" class="question-text">読み込み中...</div>
+        <button class="btn" onclick="nextQuestion()">選択肢A</button>
+        <button class="btn" onclick="nextQuestion()">選択肢B</button>
+    </div>
+
+    <div id="loading-area">
+        <div class="spinner"></div>
+        <h2>性格特性を抽出中...</h2>
+        <p>回答の傾向からあなたの深層心理を分析しています</p>
+    </div>
+
+    <div id="result-area">
+        <p style="font-weight: bold; color: #666;">あなたの診断結果</p>
+
+        <img src="https://drive.google.com/uc?export=view&amp;id=あなたの画像ID" alt="お疲れ様画像" class="result-img" id="result-image" />
+
+        <div class="result-message">
+            15問の丁寧な回答、ありがとうございました。<br/><br/>
+            診断の結果、今のあなたに最も必要なのは分析ではなく、心からの「お疲れ様」でした。<br/><br/>
+            画像に描かれているのは、あなたの魂の姿です。「解放者」として、これまでの重荷を解き放ち、自由な「OTKR」型として振る舞ってください。<br/><br/>
+            これまで本当によく頑張ってきましたね。大変なこともたくさんあったと思います。今は転職活動も、将来のことも、少しだけ横に置いて。まずは自分をたっぷり甘やかして, 心身ともにリフレッシュしてください。あなたの新しい門出を応援しています！
+        </div>
+
+        <div style="margin-top: 25px; width: 100%; text-align: center;">
+            <p style="font-weight: bold; color: 059669_1; margin-bottom: 10px;">🎧 特別なメッセージが届いています</p>
+            <audio controls="controls" style="width: 100%; max-width: 300px;">
+                <source src="https://drive.google.com/uc?export=download&amp;id=ここに音声のIDを入れる" type="audio/mp4" />
+                <source src="https://drive.google.com/uc?export=download&amp;id=ここに音声のIDを入れる" type="audio/mpeg" />
+                お使いのブラウザは音声再生に対応していません。
+            </audio>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "新しい人と出会うことは？", a: ["エネルギーをもらえる", "少し疲れを感じる"] },
+        { q: "物事を考えるときは？", a: ["現実的な事実を重視する", "可能性や概念を重視する"] },
+        { q: "決断を下すときは？", a: ["論理的で客観的な正しさを選ぶ", "周囲の感情や調和を大切にする"] },
+        { q: "生活のスタイルは？", a: ["計画を立ててきっちり進めたい", "柔軟にその場の状況に合わせたい"] },
+        { q: "パーティーや集まりでは？", a: ["自分から多くの人に話しかける", "知っている人と静かに話す"] },
+        { q: "想像力豊かな世界に浸ることは？", a: ["あまりない、現実が大事", "よくある、ワクワクする"] },
+        { q: "他人を批判しなければならない時は？", a: ["率直に事実を伝える", "相手の気持ちを傷つけないか悩む"] },
+        { q: "締め切りに対しては？", a: ["余裕を持って早めに終わらせる", "期限ギリギリに集中してやる"] },
+        { q: "忙しい一日の後は？", a: ["誰かと話して発散したい", "一人で静かに過ごしたい"] },
+        { q: "説明書を読むときは？", a: ["まず隅々までしっかり読む", "読み飛ばして直感で動いてみる"] },
+        { q: "映画を観て感動したとき？", a: ["なぜ感動したか理由を考える", "ただその感情にどっぷり浸かる"] },
+        { q: "部屋の状態は？", a: ["整理整頓されている方が落ち着く", "多少散らかっている方がリラックスできる"] },
+        { q: "中心になって注目を浴びるのは？", a: ["どちらかといえば好きだ", "できれば避けたい"] },
+        { q: "具体的な数字やデータは？", a: ["信頼できるし、好きだ", "少し退屈に感じることがある"] },
+        { q: "最後の質問です。今の気分は？", a: ["よし、結果を見よう！", "どんな結果かドキドキする"] }
+    ];
+
+    let currentQ = 0;
+    const qArea = document.getElementById("question-area");
+    const loadArea = document.getElementById("loading-area");
+    const resArea = document.getElementById("result-area");
+    const qText = document.getElementById("question-text");
+    const qNumText = document.getElementById("q-num");
+    const btns = document.querySelectorAll(".btn");
+    const pBar = document.getElementById("progress-bar");
+    const pWrapper = document.getElementById("progress-wrapper");
+
+    function showQuestion() {
+        qNumText.innerText = 'Question ' + (currentQ + 1);
+        qText.innerText = questions[currentQ].q;
+        btns[0].innerText = questions[currentQ].a[0];
+        btns[1].innerText = questions[currentQ].a[1];
+
+        const progress = (currentQ / questions.length) * 100;
+        pBar.style.width = progress + "%";
+    }
+
+    function nextQuestion() {
+        currentQ++;
+        // GAS対策として「<」を使わないロジックに変更
+        if (currentQ !== questions.length) {
+            showQuestion();
+        } else {
+            pBar.style.width = "100%";
+            qArea.style.display = "none";
+            pWrapper.style.display = "none";
+            loadArea.style.display = "flex";
+
+            setTimeout(() => {
+                loadArea.style.display = "none";
+                resArea.style.display = "flex";
+                window.scrollTo(0, 0);
+            }, 4000);
+        }
+    }
+
+    showQuestion();
+</script>
+
+</body>
+</html>
